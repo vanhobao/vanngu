@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beat Composer Pro (V9 - Full Song Structure)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Beat Composer Pro</h1>
+            <p>Tạo Beat Full Track Từ Giọng Hát (Nguyên mẫu V9)</p>
+        </header>
+
+        <main class="app-content">
+            <div class="section-card">
+                <h2><i class="fas fa-microphone-alt"></i>Bước 1: Cung Cấp Giọng Hát (Ví dụ: 1 đoạn Verse 30-40s)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div>
+                        <button id="recordBtnEl" class="button button-primary w-full">
+                            <i class="fas fa-circle" id="recordIconEl"></i>
+                            <span id="recordBtnTextEl">Thu Âm Giọng Hát</span>
+                        </button>
+                        <p class="text-xs text-muted mt-2 text-center">Tối đa 90 giây</p>
+                    </div>
+                    <div>
+                        <label for="audioFileEl" class="button-like-input file-input-area p-0 w-full h-full flex flex-col justify-center items-center">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Tải File Hát Chay</span>
+                        </label>
+                        <input type="file" id="audioFileEl" class="hidden" accept="audio/*">
+                    </div>
+                </div>
+                <p id="fileNameEl" class="text-sm text-center text-muted-dark mt-4"></p>
+                <audio id="vocalPlayerEl" controls class="w-full mt-4 hidden"></audio>
+            </div>
+
+            <div class="section-card">
+                <h2><i class="fas fa-sliders-h"></i>Bước 2: Tùy Chỉnh Beat</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    <div>
+                        <label for="genreSelectEl">Chọn Thể Loại / Phong Cách:</label>
+                        <select id="genreSelectEl">
+                            <option value="pop_ballad">Pop Ballad Êm Dịu</option>
+                            <option value="lofi_hiphop">Lo-fi Hip Hop Chill</option>
+                            <option value="edm_house">EDM House Sôi Động</option>
+                            <option value="acoustic_folk">Acoustic/Folk Mộc Mạc</option>
+                            <option value="trap_beat">Trap Beat Hiện Đại</option>
+                            <option value="piano_ballad">Piano Ballad Lãng Mạn</option>
+                            <option value="guitar_acoustic_chill">Guitar Acoustic Chill</option>
+                            <option value="bolero_trữ_tình">Bolero Trữ Tình</option>
+                            <option value="vpop_sontung_style">V-Pop (Phong cách Sơn Tùng)</option>
+                            <option value="vpop_jack_style">V-Pop (Phong cách Jack)</option>
+                            <option value="edm_remix_full">EDM Remix Full (Build-up, Drop, Climax)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="tempoInputEl">Tempo (BPM):</label>
+                        <input type="number" id="tempoInputEl" value="100" min="40" max="200">
+                    </div>
+                </div>
+                <div class="checkbox-group mt-6">
+                    <input type="checkbox" id="addDropCheckbox">
+                    <label for="addDropCheckbox" class="label-like mb-0 cursor-pointer">Bao gồm Đoạn Bridge / Drop / Giang Tấu</label>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h2><i class="fas fa-play-circle"></i>Bước 3: Tạo & Nghe Thử</h2>
+                <div class="flex flex-wrap justify-center md:justify-start">
+                    <button id="generatePlayBtnEl" class="button button-accent" disabled>
+                        <i class="fas fa-magic"></i>Tạo Beat Full & Phát
+                    </button>
+                     <button id="regenerateBtnEl" class="button button-primary hidden">
+                        <i class="fas fa-redo-alt"></i>Tạo Lại Beat Khác
+                    </button>
+                    <button id="stopBtnEl" class="button button-secondary" disabled>
+                        <i class="fas fa-stop"></i>Dừng Tất Cả
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mt-8">
+                    <div class="volume-control">
+                        <label for="vocalVolumeEl">Âm lượng Giọng Hát:</label>
+                        <input type="range" id="vocalVolumeEl" min="0" max="1" step="0.01" value="0.85">
+                    </div>
+                    <div class="volume-control">
+                        <label for="beatVolumeEl">Âm lượng Beat:</label>
+                        <input type="range" id="beatVolumeEl" min="0" max="1" step="0.01" value="0.60">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="statusPanelEl" class="status-panel">
+                Vui lòng thu âm hoặc tải file giọng hát để bắt đầu.
+            </div>
+
+            <div class="section-card mt-8 hidden" id="downloadSectionEl">
+                 <h2><i class="fas fa-download"></i>Bước 4: Tải Về</h2>
+                 <p class="text-sm text-muted-dark mb-4">Bản beat sẽ được trộn cùng giọng hát của bạn. Quá trình chuẩn bị file tải về có thể mất một chút thời gian sau khi dừng phát.</p>
+                 <button id="downloadBtnEl" class="button button-primary w-full" disabled>
+                    <i class="fas fa-file-audio"></i><span id="downloadBtnTextEl">Chuẩn Bị Tải File (WAV)</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="beat_patterns.js"></script> <script src="script.js"></script>
+</body>
+</html>
